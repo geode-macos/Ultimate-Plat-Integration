@@ -1,0 +1,19 @@
+{
+	"geode": "4.5.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "ruslanych.pdc_integration",
+	"name": "PDC Integration",
+	"version": "v0.0.0",
+	"developer": "Ruslanych",
+	"description": "Integration of Platformer Difficulty Chart",
+	"resources": {
+        "sprites": [
+            "resources/*.png"
+        ]
+    }
+}
