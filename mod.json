@@ -8,7 +8,7 @@
 	},
 	"id": "ruslanych.pdc_integration",
 	"name": "PDC Integration",
-	"version": "v0.0.0",
+	"version": "v1.0.0",
 	"developer": "Ruslanych",
 	"description": "Integration of Platformer Difficulty Chart",
 	"resources": {
