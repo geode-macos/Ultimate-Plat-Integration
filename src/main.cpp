@@ -104,8 +104,8 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
         
         cocos2d::CCMenu* tier = cocos2d::CCMenu::create();
         CCMenuItemSpriteExtra* tierButton = CCMenuItemSpriteExtra::create(
-            tierSprite, this,
-            menu_selector(PDCILevelInfoLayer::onButton)
+            tierSprite, this, nullptr
+            // menu_selector(PDCILevelInfoLayer::onButton)
         );
         tier->setID("PdcTier");
         tier->addChild(tierButton);
