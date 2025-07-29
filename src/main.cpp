@@ -88,7 +88,7 @@ int pdc_find_level(matjson::Value pdc_levels, GJGameLevel* level) {
 CCSprite* generate_tiersprite(std::string s) {
     log::debug("in the [generate_tiersprite] funciton");
     if (geode::utils::numFromString<int>(s).unwrapOr(-1) > 13) s = "0";
-    return CCSprite::create(fmt::format("tier_{}.png"_spr, s));
+    return CCSprite::create(fmt::format("tier_{}.png"_spr, s).c_str());
 };
 
 
@@ -103,7 +103,7 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
         if (!LevelInfoLayer::init(level, challenge)) return false;
         if (!level->isPlatformer()) return true;
         
-        float label_position[2] = {this->getContentWidth() / 2 - 150.0, this->getContentHeight() / 2 + 32.0};
+        float label_position[2] = {(this->getContentWidth() / 2) - 150.f, (this->getContentHeight() / 2.f) + 32.f};
         cocos2d::CCNode* label = cocos2d::CCNode::create();
         label->setPosition(label_position[0], label_position[1]);
 
