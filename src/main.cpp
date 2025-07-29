@@ -163,6 +163,11 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
                 // log::debug("progress: {}", p->downloadProgress().value_or(0.f));
             } else if (e->isCancelled()) {
                 log::debug("The request was cancelled... So sad :(");
+                if (CCNode* label = this->getChildByID("PdcLabel"); label && label->getChildByID("PdcLoadingSpinner")) {
+                    label->removeChildByID("PdcLoadingSpinner");
+                    label->removeMeAndCleanup();
+                    FLAlertLayer::create("Oh no!", "Ultimate Plat Integration was unable to fetch data for this level.\n\nSo sad :(", "OK")->show();
+                }
             }
         });
         auto req = web::WebRequest();
