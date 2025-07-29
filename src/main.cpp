@@ -1,9 +1,14 @@
 #include <Geode/modify/LevelInfoLayer.hpp>
+#include <Geode/modify/LevelListLayer.hpp>
+#include <Geode/modify/GJListLayer.hpp>
+#include <Geode/modify/TableView.hpp>
 #include <Geode/utils/web.hpp>
 
 #include <fstream>
 #include <vector>
 #include <limits>
+#include <thread>
+#include <sstream>
 
 using namespace geode::prelude;
 
@@ -45,6 +50,23 @@ $execute {
     // // auto req = web::WebRequest();
     // // Let's fetch... uhh...
     // m_listener.setFilter(req.get(url));
+    
+    CCSprite::create("tier_0.png"_spr);
+    CCSprite::create("tier_1.png"_spr);
+    CCSprite::create("tier_2.png"_spr);
+    CCSprite::create("tier_3.png"_spr);
+    CCSprite::create("tier_4.png"_spr);
+    CCSprite::create("tier_5.png"_spr);
+    CCSprite::create("tier_6.png"_spr);
+    CCSprite::create("tier_7.png"_spr);
+    CCSprite::create("tier_8.png"_spr);
+    CCSprite::create("tier_9.png"_spr);
+    CCSprite::create("tier_10.png"_spr);
+    CCSprite::create("tier_11.png"_spr);
+    CCSprite::create("tier_12.png"_spr);
+    CCSprite::create("tier_13.png"_spr);
+    // Mod::get()->setSavedValue<CCSprite**>("1", tier_sprites_);
+    // Mod::get()->setSavedValue<matjson::Value>("tier sprites", tier_sprites);
 };
 
 int pdc_find_level(matjson::Value pdc_levels, GJGameLevel* level) {
@@ -59,6 +81,7 @@ int pdc_find_level(matjson::Value pdc_levels, GJGameLevel* level) {
 };
 
 CCSprite* generate_tiersprite(std::string s) {
+    log::debug("in the [generate_tiersprite] funciton");
     if (s == "1")  return CCSprite::create("tier_1.png"_spr);
     if (s == "2")  return CCSprite::create("tier_2.png"_spr);
     if (s == "3")  return CCSprite::create("tier_3.png"_spr);
@@ -81,46 +104,81 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
     struct Fields {
         EventListener<web::WebTask> m_listener;
     };
+    
 
     bool init(GJGameLevel* level, bool challenge) {
         if (!LevelInfoLayer::init(level, challenge)) return false;
         if (!level->isPlatformer()) return true;
-        this->read_online_data();
-
-        matjson::Value pdc_levels = Mod::get()->getSavedValue<matjson::Value>("levels");
-
-        int pdc_inner_id = pdc_find_level(pdc_levels, level);
         
-        // pdc_levels[pdc_inner_id][2]
-
-        cocos2d::CCSprite* tierSprite;
-        if (pdc_inner_id == -1)
-            tierSprite = generate_tiersprite("0");
-        else
-            tierSprite = generate_tiersprite(pdc_levels[pdc_inner_id][2].asString().unwrapOr("2"));
-        // cocos2d::CCSprite* tierSprite = CCSprite::create("tier_2.png"_spr);
-        tierSprite->setScale(0.375);
-
+        CCSprite::create("tier_0.png"_spr);
+        CCSprite::create("tier_1.png"_spr);
+        CCSprite::create("tier_2.png"_spr);
+        CCSprite::create("tier_3.png"_spr);
+        CCSprite::create("tier_4.png"_spr);
+        CCSprite::create("tier_5.png"_spr);
+        CCSprite::create("tier_6.png"_spr);
+        CCSprite::create("tier_7.png"_spr);
+        CCSprite::create("tier_8.png"_spr);
+        CCSprite::create("tier_9.png"_spr);
+        CCSprite::create("tier_10.png"_spr);
+        CCSprite::create("tier_11.png"_spr);
+        CCSprite::create("tier_12.png"_spr);
+        CCSprite::create("tier_13.png"_spr);
         
-        cocos2d::CCMenu* tier = cocos2d::CCMenu::create();
-        CCMenuItemSpriteExtra* tierButton = CCMenuItemSpriteExtra::create(
-            tierSprite, this, nullptr
-            // menu_selector(PDCILevelInfoLayer::onButton)
-        );
-        tier->setID("PdcTier");
-        tier->addChild(tierButton);
-        tier->setPosition(135.0, 190.0);
-        // auto winSize = CCDirector::sharedDirector()->getWinSize();
-        // tier->setPosition({winSize.width / 2 - 50, winSize.height / 2 - 50});
-        tier->setContentSize(cocos2d::CCSize());
-        // tier->setLayout(ColumnLayout::create()->setGap(5.0f)->setAxisReverse(true)->setAutoScale(true));
-        // tierButton->
+        float label_position[2] = {this->getContentWidth() / 2 - 150.0, this->getContentHeight() / 2 + 32.0};
+        cocos2d::CCNode* label = cocos2d::CCNode::create();
+        label->setPosition(label_position[0], label_position[1]);
 
-        // auto leftSideMenu = this->getChildByID("left-side-menu");
-        this->addChild(tier);
-        // cocos2d::CCNode* gddl_label = this->getChildByID("b1rtek.gddlintegration/rating-menu");
-        // if (gddl_label != nullptr)
-        //     gddl_label->removeFromParent();
+        std::thread reader([](PDCILevelInfoLayer* this_, cocos2d::CCNode* label_, GJGameLevel* level) {
+            matjson::Value pdc_levels = Mod::get()->getSavedValue<matjson::Value>("levels");
+
+            int pdc_inner_id = pdc_find_level(pdc_levels, level);
+            
+            // pdc_levels[pdc_inner_id][2]
+
+            cocos2d::CCSprite* tierSprite;
+            if (pdc_inner_id == -1)
+                tierSprite = generate_tiersprite("0");
+            else
+                tierSprite = generate_tiersprite(pdc_levels[pdc_inner_id][2].asString().unwrapOr("2"));
+            // cocos2d::CCSprite* tierSprite = CCSprite::create("tier_2.png"_spr);
+            tierSprite->setScale(0.375);
+            
+            cocos2d::CCMenu* tier = cocos2d::CCMenu::create();
+            CCMenuItemSpriteExtra* tierButton = CCMenuItemSpriteExtra::create(
+                tierSprite, this_, nullptr
+                // menu_selector(PDCILevelInfoLayer::onButton)
+            );
+            
+            tier->setPosition(0, 0);
+            tier->setID("PdcTier");
+            tier->addChild(tierButton);
+            // tier->setPosition(135.0, this->getChildById("stars-label")->);
+            // auto winSize = CCDirector::sharedDirector()->getWinSize();
+            // tier->setPosition({winSize.width / 2 - 50, winSize.height / 2 - 50});
+            tier->setContentSize(cocos2d::CCSize());
+
+            
+            // tier->setLayout(ColumnLayout::create()->setGap(5.0f)->setAxisReverse(true)->setAutoScale(true));
+            // tierButton->
+
+            // auto leftSideMenu = this->getChildByID("left-side-menu");
+            // cocos2d::CCNode* gddl_label = this->getChildByID("b1rtek.gddlintegration/rating-menu");
+            // if (gddl_label != nullptr)
+            //     gddl_label->removeFromParent();
+            if (label_->getChildrenCount() == 1) {
+                label_->removeChildByID("PdcLoadingSpinner");
+                label_->addChild(tier);
+            }
+            
+        }, this, label, level);
+        reader.detach();
+        LoadingSpinner* loading_spinner = LoadingSpinner::create(30.0);
+        loading_spinner->setID("PdcLoadingSpinner");
+        label->addChild(loading_spinner);
+
+        this->addChild(label);
+
 
         return true;
     };
@@ -175,3 +233,24 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
     //     // log::debug("{}", Mod::get()->getSavedValue<matjson::Value>("levels")[].asArray().unwrap());
     // }
 };
+
+// class $modify(PDC_GJListLayer, GJListLayer) {
+//     bool init(BoomListView* p0, char const* p1, ccColor4B p2, float p3, float p4, int p5) {
+//         if (!GJListLayer::init(p0, p1, p2, p3, p4, p5)) return false;
+//         CCNode* list_view = this->getChildByID("list-view");
+//         if (list_view == nullptr) return true;
+//         CCObject* content_layer = list_view->getChildren()->objectAtIndex(0);
+//         log::debug("{}", content_layer);
+        
+//         return true;
+//     };
+// };
+
+// class $modify(PDC_LevelListLayer, LevelListLayer) {
+//     bool init(GJLevelList* p0) {
+//         if (!LevelListLayer::init(p0)) return false;
+        
+//         log::debug("{}", this->getChildByID("GJListLayer")->getChildByID("list-view")->getChildren()->objectAtIndex(0)->getChildren()->objectAtIndex(0);
+//         return true;
+//     }
+// };

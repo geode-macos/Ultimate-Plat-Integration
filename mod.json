@@ -7,8 +7,8 @@
 		"ios": "2.2074"
 	},
 	"id": "ruslanych.pdc_integration",
-	"name": "PDC Integration",
-	"version": "v1.0.0",
+	"name": "Ultimate Plat Integration",
+	"version": "v1.1.0",
 	"developer": "Ruslanych",
 	"description": "Integration of Platformer Difficulty Chart",
 	"resources": {
