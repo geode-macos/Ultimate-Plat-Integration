@@ -51,30 +51,35 @@ $execute {
     // // Let's fetch... uhh...
     // m_listener.setFilter(req.get(url));
     
-    CCSprite::create("tier_0.png"_spr);
-    CCSprite::create("tier_1.png"_spr);
-    CCSprite::create("tier_2.png"_spr);
-    CCSprite::create("tier_3.png"_spr);
-    CCSprite::create("tier_4.png"_spr);
-    CCSprite::create("tier_5.png"_spr);
-    CCSprite::create("tier_6.png"_spr);
-    CCSprite::create("tier_7.png"_spr);
-    CCSprite::create("tier_8.png"_spr);
-    CCSprite::create("tier_9.png"_spr);
-    CCSprite::create("tier_10.png"_spr);
-    CCSprite::create("tier_11.png"_spr);
-    CCSprite::create("tier_12.png"_spr);
-    CCSprite::create("tier_13.png"_spr);
+    // CCSprite::create("tier_0.png"_spr);
+    // CCSprite::create("tier_1.png"_spr);
+    // CCSprite::create("tier_2.png"_spr);
+    // CCSprite::create("tier_3.png"_spr);
+    // CCSprite::create("tier_4.png"_spr);
+    // CCSprite::create("tier_5.png"_spr);
+    // CCSprite::create("tier_6.png"_spr);
+    // CCSprite::create("tier_7.png"_spr);
+    // CCSprite::create("tier_8.png"_spr);
+    // CCSprite::create("tier_9.png"_spr);
+    // CCSprite::create("tier_10.png"_spr);
+    // CCSprite::create("tier_11.png"_spr);
+    // CCSprite::create("tier_12.png"_spr);
+    // CCSprite::create("tier_13.png"_spr);
     // Mod::get()->setSavedValue<CCSprite**>("1", tier_sprites_);
     // Mod::get()->setSavedValue<matjson::Value>("tier sprites", tier_sprites);
 };
 
 int pdc_find_level(matjson::Value pdc_levels, GJGameLevel* level) {
+    std::string desiredLevelID = geode::utils::numToString(level->m_levelID.value());
     log::debug("[{}", pdc_levels.size());
     for (int i = 2; i < pdc_levels.size(); i++) {
-        log::debug("{}, {}", pdc_levels.operator[](i).operator[](0).asString().unwrap(), std::format("{}", level->m_levelID.value()));
-        if (pdc_levels.operator[](i).operator[](0).asString().unwrap() == std::format("{}", level->m_levelID.value()))
-            return i;
+        auto atIndexI = pdc_levels.get(i);
+        if (atIndexI.isErr()) continue;
+        auto atIndexZeroOfIndexI = atIndexI.unwrap().get(0);
+        if (atIndexZeroOfIndexI.isErr()) continue;
+        auto levelIDFromSpreadsheet = atIndexZeroOfIndexI.unwrap().asString().unwrapOr("");
+        log::debug("{}, {}", levelIDFromSpreadsheet, desiredLevelID);
+        if (levelIDFromSpreadsheet == desiredLevelID) return i;
     }
     log::debug("Didn't find the ID");
     return -1;
@@ -82,20 +87,8 @@ int pdc_find_level(matjson::Value pdc_levels, GJGameLevel* level) {
 
 CCSprite* generate_tiersprite(std::string s) {
     log::debug("in the [generate_tiersprite] funciton");
-    if (s == "1")  return CCSprite::create("tier_1.png"_spr);
-    if (s == "2")  return CCSprite::create("tier_2.png"_spr);
-    if (s == "3")  return CCSprite::create("tier_3.png"_spr);
-    if (s == "4")  return CCSprite::create("tier_4.png"_spr);
-    if (s == "5")  return CCSprite::create("tier_5.png"_spr);
-    if (s == "6")  return CCSprite::create("tier_6.png"_spr);
-    if (s == "7")  return CCSprite::create("tier_7.png"_spr);
-    if (s == "8")  return CCSprite::create("tier_8.png"_spr);
-    if (s == "9")  return CCSprite::create("tier_9.png"_spr);
-    if (s == "10") return CCSprite::create("tier_10.png"_spr);
-    if (s == "11") return CCSprite::create("tier_11.png"_spr);
-    if (s == "12") return CCSprite::create("tier_12.png"_spr);
-    if (s == "13") return CCSprite::create("tier_13.png"_spr);
-    else           return CCSprite::create("tier_0.png"_spr);
+    if (geode::utils::numFromString<int>(s).unwrapOr(-1) > 13) s = "0";
+    return CCSprite::create(fmt::format("tier_{}.png"_spr, s));
 };
 
 
@@ -109,21 +102,6 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
     bool init(GJGameLevel* level, bool challenge) {
         if (!LevelInfoLayer::init(level, challenge)) return false;
         if (!level->isPlatformer()) return true;
-        
-        CCSprite::create("tier_0.png"_spr);
-        CCSprite::create("tier_1.png"_spr);
-        CCSprite::create("tier_2.png"_spr);
-        CCSprite::create("tier_3.png"_spr);
-        CCSprite::create("tier_4.png"_spr);
-        CCSprite::create("tier_5.png"_spr);
-        CCSprite::create("tier_6.png"_spr);
-        CCSprite::create("tier_7.png"_spr);
-        CCSprite::create("tier_8.png"_spr);
-        CCSprite::create("tier_9.png"_spr);
-        CCSprite::create("tier_10.png"_spr);
-        CCSprite::create("tier_11.png"_spr);
-        CCSprite::create("tier_12.png"_spr);
-        CCSprite::create("tier_13.png"_spr);
         
         float label_position[2] = {this->getContentWidth() / 2 - 150.0, this->getContentHeight() / 2 + 32.0};
         cocos2d::CCNode* label = cocos2d::CCNode::create();
