@@ -3,7 +3,7 @@
 # Ultimate Plat Integration 
 ### Geode mod that integrates the Platformer Tier List system into level info.
 
-#&nbsp;&nbsp;&nbsp;&nbsp;Download <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;►[HERE](https://github.com/Ruslanych/Ultimate-Plat-Integration/releases/tag/stable)◄<br><br>You have to download the mod file <i style="font-weight:400;"><u>ruslanych.ultimate-plat-integration.geode</u></i> and <b><u>open</u></b> it using <b><u>Geode&nbsp;Import&nbsp;<img src="./other/tutorial1.png" width=40 style="margin-bottom:-15px;">&nbsp;button</b></u>.
+# &nbsp;&nbsp;&nbsp;&nbsp;Download <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;►[HERE](https://github.com/Ruslanych/Ultimate-Plat-Integration/releases/tag/stable)◄<br><br>You have to download the mod file <i style="font-weight:400;"><u>ruslanych.ultimate-plat-integration.geode</u></i> and <b><u>open</u></b> it using <b><u>Geode&nbsp;Import&nbsp;<img src="./other/tutorial1.png" width=40 style="margin-bottom:-15px;">&nbsp;button</b></u>.
 <br><br>
 ## You can also go to our [Development Discord Server](https://discord.gg/JH5JJSh2TD), you can check the updates and give the feedback ( looking forward to it ;> )
     
