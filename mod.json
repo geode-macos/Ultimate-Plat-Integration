@@ -6,9 +6,9 @@
 		"mac": "2.2074",
 		"ios": "2.2074"
 	},
-	"id": "ruslanych.pdc_integration",
+	"id": "ruslanych.ultimate_plat_integration",
 	"name": "Ultimate Plat Integration",
-	"version": "v1.1.0",
+	"version": "v1.1.1",
 	"developer": "Ruslanych",
 	"description": "Integration of Platformer Difficulty Chart",
 	"resources": {

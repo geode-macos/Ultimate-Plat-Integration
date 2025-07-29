@@ -129,10 +129,11 @@ class $modify(PDCILevelInfoLayer, LevelInfoLayer) {
         cocos2d::CCNode* label = cocos2d::CCNode::create();
         label->setPosition(label_position[0], label_position[1]);
 
-        std::thread reader([](PDCILevelInfoLayer* this_, cocos2d::CCNode* label_, GJGameLevel* level) {
+        std::thread reader([](PDCILevelInfoLayer* this_, cocos2d::CCNode* label_, GJGameLevel* level_) {
+            this_->read_online_data();
             matjson::Value pdc_levels = Mod::get()->getSavedValue<matjson::Value>("levels");
 
-            int pdc_inner_id = pdc_find_level(pdc_levels, level);
+            int pdc_inner_id = pdc_find_level(pdc_levels, level_);
             
             // pdc_levels[pdc_inner_id][2]
 
