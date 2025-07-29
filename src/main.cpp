@@ -87,7 +87,7 @@ int pdc_find_level(matjson::Value pdc_levels, GJGameLevel* level) {
 
 CCSprite* generate_tiersprite(std::string s) {
     log::debug("in the [generate_tiersprite] funciton");
-    if (geode::utils::numFromString<int>(s).unwrapOr(-1) > 13) s = "0";
+    if (geode::utils::numFromString<int>(s).unwrapOr(14) > 13) s = "0";
     return CCSprite::create(fmt::format("tier_{}.png"_spr, s).c_str());
 };
 
